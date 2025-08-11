@@ -1,0 +1,34 @@
+name: Quarto Publish
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # Optional: install TinyTeX only if you build a PDF too
+      - name: Setup TinyTeX
+        uses: r-lib/actions/setup-tinytex@v2
+        with:
+          install-pkgs: true
+
+      - name: Render Quarto Book
+        run: quarto render
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: _book
