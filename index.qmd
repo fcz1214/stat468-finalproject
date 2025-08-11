@@ -1,0 +1,21 @@
+# Tennis Match Prediction Analysis {.unnumbered}
+
+## Abstract
+
+This project began with an ambitious goal to analyze player fatigue patterns during tennis rallies by examining how shot speeds decline as rallies extend. The original plan was to use detailed shot-by-shot data from the Tennis Match Charting Project to understand when and how players tire during long exchanges, potentially revealing insights about momentum shifts and optimal rest strategies.
+
+However, after diving into the data and conducting initial exploratory analysis, it became clear that the relationship between shot speed degradation and match outcomes was much weaker than anticipated. The data showed inconsistent patterns across different players and court surfaces, making it difficult to build a reliable predictive model. Rather than forcing a problematic approach, I decided to pivot to a more established and proven methodology.
+
+Earlier in the course, I had presented a paper on tennis match prediction that used fundamental player characteristics like rankings and match context to predict winners. This presentation had given me a solid theoretical foundation and highlighted the effectiveness of simpler approaches in sports prediction. Given the computational constraints of this project and the need for reliable results, replicating and extending this research seemed like a much more practical and achievable direction.
+
+The current project focuses on predicting tennis match outcomes using core features that have been proven effective in academic research. Instead of complex shot-level analysis, this approach relies on ATP player rankings, ranking differences between opponents, and court surface information. While this might seem simpler than the original fatigue analysis, it actually represents a more robust and scientifically grounded approach to tennis prediction.
+
+The methodology centers around logistic regression models that balance prediction accuracy with computational efficiency. Using ATP tournament data from 2022 to 2024, the system processes match information for top-ranked players and generates real-time predictions. This approach has been validated in multiple academic studies and consistently delivers reliable results in the 65-70% accuracy range.
+
+What makes this project unique is not just the prediction model itself, but the complete end-to-end implementation. The system demonstrates how academic research can be translated into practical applications. Starting with raw tournament data, the pipeline includes data cleaning, feature engineering, model training, and ultimately deployment as a web application that anyone can use to get match predictions.
+
+The technical architecture showcases modern data science practices, including API development using FastAPI, cloud deployment on AWS EC2, and an interactive web interface built with Python Shiny. The entire system is automated using GitHub Actions, ensuring reproducibility and easy updates as new data becomes available.
+
+This project serves multiple purposes. It validates existing tennis prediction research by successfully replicating published methodologies. It demonstrates how to adapt academic approaches for real-world constraints like limited computing power. Most importantly, it shows the complete journey from research paper to deployed application, bridging the gap between theoretical knowledge and practical implementation.
+
+The final result is a working tennis prediction system that not only achieves competitive accuracy but also provides a template for how sports analytics research can be transformed into accessible tools for fans, analysts, and researchers.
