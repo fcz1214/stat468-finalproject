@@ -17,14 +17,8 @@ jobs:
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      # Optional: install TinyTeX only if you build a PDF too
-      - name: Setup TinyTeX
-        uses: r-lib/actions/setup-tinytex@v2
-        with:
-          install-pkgs: true
-
-      - name: Render Quarto Book
-        run: quarto render
+      - name: Render Quarto (HTML only)
+        run: quarto render --to html
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
