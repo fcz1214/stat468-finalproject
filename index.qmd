@@ -1,4 +1,4 @@
-# Tennis Match Prediction Analysis {.unnumbered}
+# Tennis Match Prediction Analysis 
 
 ## Abstract
 
