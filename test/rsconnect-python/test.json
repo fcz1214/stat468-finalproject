@@ -1,0 +1,12 @@
+{
+    "https://api.shinyapps.io": {
+        "server_url": "https://api.shinyapps.io",
+        "filename": "/Users/cz/Downloads/stat468-final project/test",
+        "app_url": "https://czfu.shinyapps.io/test_app1/",
+        "app_id": "15189816",
+        "app_guid": null,
+        "title": "Test App",
+        "app_mode": "python-shiny",
+        "app_store_version": 1
+    }
+}

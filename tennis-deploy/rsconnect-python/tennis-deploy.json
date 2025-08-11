@@ -1,0 +1,12 @@
+{
+    "https://api.shinyapps.io": {
+        "server_url": "https://api.shinyapps.io",
+        "filename": "/Users/cz/Downloads/stat468-final project/tennis-deploy",
+        "app_url": "https://czfu.shinyapps.io/tennis_predictor_version_2025101/",
+        "app_id": "15189989",
+        "app_guid": null,
+        "title": "Tennis Predictor version 2025.1.0",
+        "app_mode": "python-shiny",
+        "app_store_version": 1
+    }
+}
