@@ -1,4 +1,3 @@
-cat > 03-tidy.qmd << 'EOF'
 # Tidy
 
 Getting the tennis data was just the first step — now I had to actually make it usable for 
