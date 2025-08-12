@@ -8,7 +8,7 @@ book:
   author: "Chongzhi Fu"
   date: today
   chapters:
-    - report/index.qmd
+    - index.qmd
     - report/01-question.qmd
     - report/02-import.qmd
     - report/03-tidy.qmd
