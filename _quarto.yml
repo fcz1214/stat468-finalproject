@@ -8,7 +8,7 @@ book:
   author: "Chongzhi Fu"
   date: today
   chapters:
-    - index.qmd
+    - report/index.qmd
     - report/01-question.qmd
     - report/02-import.qmd
     - report/03-tidy.qmd
@@ -16,6 +16,7 @@ book:
     - report/05-visualize.qmd
     - report/06-model.qmd
     - report/07-communicate.qmd
+    - report/references.bib
 
 format:
   html:
