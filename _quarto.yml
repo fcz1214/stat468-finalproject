@@ -17,7 +17,7 @@ book:
     - report/06-model.qmd
     - report/07-communicate.qmd
    
-bibliography: report/references.bib  #
+bibliography: report/references.bib  
 
 format:
   html:
