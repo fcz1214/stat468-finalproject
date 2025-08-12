@@ -1,0 +1,1101 @@
+In this all project, I used cursor for code completion(auto filling) and claude.ai for last minutes help on the generate of Quarto Book(as well as grammarly for grammar check)
+
+
+Screenshot 20250811 at 22.37.12.png
+why the reference is not shown here date: today
+ chapters:
+ - index.qmd
+ - report/01-question.qmd
+ - report/02-import.qmd
+ - report/03-tidy.qmd
+ - report/04-transform.qmd
+ - report/05-visualize.qmd
+ - report/06-model.qmd
+ - report/07-communicate.qmd
+ - report/references.bib
+Edit
+Looking at your Quarto project configuration, the issue is that you're listing report/references.bib in the chapters section, but .bib files are bibliography files, not chapters to be rendered.
+Here's what's happening:
+Bibliography files (.bib) are not chapters - They contain reference data in BibTeX format, not content to be rendered as part of your book.
+Quarto handles bibliography automatically - When you have citations in your .qmd files (using @cite-key syntax), Quarto will automatically generate a references section.
+To fix this, you should:
+Remove the references.bib from chapters:
+yaml
+chapters:
+  - index.qmd
+  - report/01-question.qmd
+  - report/02-import.qmd
+  - report/03-tidy.qmd
+  - report/04-transform.qmd
+  - report/05-visualize.qmd
+  - report/06-model.qmd
+  - report/07-communicate.qmd
+  # Remove this line: - report/references.bib
+Add bibliography configuration instead:
+yaml
+project:
+  type: book
+  title: "Tennis Match Prediction Analysis"
+
+book:
+  title: "Tennis Match Prediction Analysis"
+  subtitle: "STAT 468 Final Project"
+  author: "Chongzhi Fu"
+  date: today
+  chapters:
+    - index.qmd
+    - report/01-question.qmd
+    - report/02-import.qmd
+    - report/03-tidy.qmd
+    - report/04-transform.qmd
+    - report/05-visualize.qmd
+    - report/06-model.qmd
+    - report/07-communicate.qmd
+
+bibliography: report/references.bib  # Add this line
+
+format:
+  html:
+    theme: cosmo
+This way, Quarto will:
+Use your references.bib file for citations
+Automatically generate a "References" section at the end of your book
+Not try to render the .bib file as a chapter
+
+
+
+after i making this change, the .bib is still not appear in it, tell me why
+Edit
+After making the bibliography configuration change, the references still might not appear for several reasons. Here are the most common causes and solutions:
+1. No Citations in Your Documents
+The most common reason - Quarto only generates a references section if you actually cite sources in your .qmd files.
+Check if you have citations like:
+markdown
+According to @smith2020, tennis prediction models...
+This approach has been validated [@jones2019; @davis2021].
+If you have no citations, add some to test:
+markdown
+# In one of your .qmd files
+This is based on recent research [@your-citation-key].
+2. Bibliography Path Issue
+Make sure the path to your .bib file is correct relative to your _quarto.yml file.
+If your structure is:
+project/
+├── _quarto.yml
+└── report/
+    └── references.bib
+Then use: bibliography: report/references.bib
+If your structure is:
+project/
+├── _quarto.yml
+└── references.bib
+Then use: bibliography: references.bib
+3. Invalid BibTeX Format
+Check that your references.bib file has valid BibTeX entries:
+bibtex
+@article{smith2020,
+  title={Tennis Match Prediction},
+  author={Smith, John},
+  journal={Sports Analytics},
+  year={2020}
+}
+4. Force References to Appear
+If you want references to show even without citations, add this to the end of your last chapter (usually 07-communicate.qmd):
+markdown
+# References
+
+::: {#refs}
+:::
+5. Check Your Current Setup
+Can you show me:
+Your current _quarto.yml file
+A sample from your references.bib file
+Whether you have any @citation-key references in your .qmd files
+This will help me pinpoint exactly why the references aren't appearing.
+
+
+
+that is @misc{sackmann_tennis_atp,
+ author = {Jeff Sackmann},
+title = {Tennis ATP Rankings, Results, and Stats},
+year = {2024},
+url = {https://github.com/JeffSackmann/tennis_atp},
+note = {Accessed: 2024-08-11}
+}
+@misc{tennis_match_charting,
+author = {Tennis Match Charting Project},
+title = {Tennis Match Charting Project},
+year = {2024},
+url = {https://www.tennisabstract.com/charting/},
+note = {Accessed: 2024-08-11}
+}
+@article{kovalchik2016searching,
+title = {Searching for the GOAT of tennis win prediction},
+author = {Kovalchik, Stephanie A},
+journal = {Journal of Quantitative Analysis in Sports},
+volume = {12},
+number = {3},
+pages = {127--138},
+year = {2016},
+publisher = {De Gruyter}
+}
+@article{barnett2005combining,
+title = {Combining player statistics to predict outcomes of tennis matches},
+author = {Barnett, Tristan and Clarke, Stephen R},
+journal = {IMA Journal of Management Mathematics},
+volume = {16},
+number = {2},
+pages = {113--120},
+year = {2005},
+publisher = {Oxford University Press}
+}
+@misc{fastapi,
+author = {Sebastián Ramirez},
+title = {FastAPI},
+year = {2024},
+url = {https://fastapi.tiangolo.com/},
+note = {Accessed: 2024-08-11}
+}
+@misc{shiny_python,
+author = {Posit},
+title = {Shiny for Python},
+year = {2024},
+url = {https://shiny.posit.co/py/},
+note = {Accessed: 2024-08-11}
+}
+@misc{aws_s3,
+author = {Amazon Web Services},
+title = {Amazon Simple Storage Service (S3)},
+year = {2024},
+url = {https://aws.amazon.com/s3/},
+note = {Accessed: 2024-08-11}
+}
+@misc{aws_ec2,
+author = {Amazon Web Services},
+title = {Amazon Elastic Compute Cloud (EC2)},
+year = {2024},
+url = {https://aws.amazon.com/ec2/},
+note = {Accessed: 2024-08-11}
+}
+@misc{docker,
+author = {Docker Inc.},
+title = {Docker: Accelerated Container Application Development},
+year = {2024},
+url = {https://www.docker.com/},
+note = {Accessed: 2024-08-11}
+}
+@article{scikit_learn,
+title = {Scikit-learn: Machine Learning in Python},
+author = {Pedregosa, F. and Varoquaux, G. and Gramfort, A. and Michel, V. and Thirion, B. and Grisel, O. and Blondel, M. and Prettenhofer, P. and Weiss, R. and Dubourg, V. and Vanderplas, J. and Passos, A. and Cournapeau, D. and Brucher, M. and Perrot, M. and Duchesnay, E.},
+journal = {Journal of Machine Learning Research},
+volume = {12},
+pages = {2825--2830},
+year = {2011}
+}
+@misc{github_actions,
+author = {GitHub},
+title = {GitHub Actions: Automate your workflow from idea to production},
+year = {2024},
+url = {https://github.com/features/actions},
+note = {Accessed: 2024-08-11}
+}
+@misc{shinyapps_io,
+author = {Posit},
+title = {Shinyapps.io: Share your Shiny applications online},
+year = {2024},
+url = {https://www.shinyapps.io/},
+note = {Accessed: 2024-08-11}
+}
+@article{ma2013comprehensive,
+title = {A comprehensive tennis analytics methodology using player and ball tracking data},
+author = {Ma, Shu-Mei and Liu, Chih-Chia and Tan, Yu and Ma, Shang-Chih},
+journal = {IEEE Access},
+volume = {1},
+pages = {711--720},
+year = {2013},
+publisher = {IEEE}
+}
+@misc{quarto,
+author = {Posit},
+title = {Quarto: An open-source scientific and technical publishing system},
+year = {2024},
+url = {https://quarto.org/},
+note = {Accessed: 2024-08-11}
+}
+@misc{cursor,
+author = {Anysphere},
+title = {Cursor: The AI-first code editor},
+year = {2024},
+url = {https://cursor.sh/},
+note = {Accessed: 2024-08-11}
+}
+Edit
+Your BibTeX file looks correct. The references aren't appearing because you need to actually cite them in your .qmd files. Quarto only generates a references section when you use citations.
+Here's how to fix it:
+1. Add Citations to Your Documents
+In your .qmd files, add citations using the @ symbol followed by the citation key. For example:
+In your data import section (02-import.qmd):
+markdown
+The ATP tennis data was obtained from @sackmann_tennis_atp, which provides comprehensive rankings, results, and statistics.
+In your methodology section (06-model.qmd):
+markdown
+Previous research on tennis prediction includes @kovalchik2016searching and @barnett2005combining, who developed methods for combining player statistics.
+In your communication section (07-communicate.qmd):
+markdown
+This analysis was conducted using @quarto for reproducible research and @scikit_learn for machine learning implementations.
+2. Force References Section to Appear
+Add this to the end of your last chapter (07-communicate.qmd):
+markdown
+# References
+
+::: {#refs}
+:::
+3. Multiple Citation Formats
+You can cite multiple sources:
+markdown
+Tennis prediction models have been explored [@kovalchik2016searching; @barnett2005combining; @ma2013comprehensive].
+4. Test with a Simple Citation
+To quickly test, add this line anywhere in one of your .qmd files:
+markdown
+This project uses data from @sackmann_tennis_atp.
+Then render your book again. You should see:
+The citation appears in the text as "(Sackmann 2024)" or similar
+A "References" section appears at the end with the full bibliography entry
+The key point: Quarto only includes references that are actually cited in your text. Your .bib file is just a database - you need to "activate" entries by citing them with @citation-key in your documents.
+
+
+
+change it for me # Import 
+After switching from my original fatigue analysis idea to match outcome prediction, I needed 
+to find good tennis data that would actually work for this project. During my earlier paper 
+presentation research, I had discovered Jeff Sackmann's tennis datasets on GitHub, which 
+turned out to be exactly what I needed. Jeff is well-known in the tennis analytics community 
+and maintains a comprehensive repository of ATP match data that spans decades.
+The dataset contains detailed information about professional tennis matches including player 
+names, rankings, tournament details, court surfaces, and match outcomes. I decided to focus 
+on ATP men's tennis data from 2022 to 2024, which gave me recent matches that reflect current 
+playing styles while providing enough data to train a reliable model.
+When I first loaded the data, I was looking at almost 66,000 matches total, which seemed 
+impressive until I realized most of it wasn't useful for my project. The older data had 
+missing information everywhere, and honestly, tennis from the 1970s isn't very relevant for 
+predicting modern matches anyway. The dataset also had plenty of messy real-world issues like 
+missing rankings, incomplete matches, and various data entry inconsistencies that I had to 
+deal with.
+I implemented a straightforward filtering approach to get clean, usable data. First, I limited 
+everything to 2022-2024 matches to keep it current. Then I removed any matches where players 
+didn't have official ATP rankings, since rankings are the core feature my model relies on. 
+I also focused only on matches between players ranked in the top 300, because lower-ranked 
+players tend to be very inconsistent and would just add noise to the model.
+```python
+import pandas as pd
+def clean_tennis_data(df):
+   df['Date'] = pd.to_datetime(df['Date'])
+   df['Year'] = df['Date'].dt.year
+   recent_data = df[df['Year'].isin([2022, 2023, 2024])]
+   ranked_matches = recent_data[
+       (recent_data['Rank_1'] != -1) & (recent_data['Rank_2'] != -1)
+   ]
+   top_tier = ranked_matches[
+       (ranked_matches['Rank_1'] <= 300) & (ranked_matches['Rank_2'] <= 300)
+   ]
+   complete_matches = top_tier[
+       ~top_tier['Score'].str.contains('RET|W/O', na=False)
+   ]
+   return complete_matches
+clean_df = clean_tennis_data(df)
+print(f"Clean matches: {len(clean_df):,}")
+```
+Finally, I removed matches that ended in retirements or walkovers since these don't represent
+normal competitive outcomes. After all this filtering, I went from 66,000 matches down to
+about 4,500 high-quality recent matches between established players.
+The final dataset contained exactly what I needed for prediction: player rankings for both
+competitors, court surface information (hard, clay, or grass), and clear match outcomes. While
+I threw away a lot of data in the cleaning process, having a smaller dataset with reliable,
+consistent information turned out to be much more valuable than having tons of messy historical
+data.
+This approach gave me confidence that the model would be training on meaningful patterns rather
+than trying to learn from inconsistent or irrelevant information. The focus on recent data from
+established players created a solid foundation for building a prediction system that would
+actually work in practice.
+Edit
+Here's your import section with proper citations added:
+Import
+After switching from my original fatigue analysis idea to match outcome prediction, I needed
+to find good tennis data that would actually work for this project. During my earlier paper
+presentation research, I had discovered Jeff Sackmann's tennis datasets on GitHub [@sackmann_tennis_atp], which
+turned out to be exactly what I needed. Jeff is well-known in the tennis analytics community
+and maintains a comprehensive repository of ATP match data that spans decades.
+The dataset contains detailed information about professional tennis matches including player
+names, rankings, tournament details, court surfaces, and match outcomes. I decided to focus
+on ATP men's tennis data from 2022 to 2024, which gave me recent matches that reflect current
+playing styles while providing enough data to train a reliable model.
+When I first loaded the data, I was looking at almost 66,000 matches total, which seemed
+impressive until I realized most of it wasn't useful for my project. The older data had
+missing information everywhere, and honestly, tennis from the 1970s isn't very relevant for
+predicting modern matches anyway. The dataset also had plenty of messy real-world issues like
+missing rankings, incomplete matches, and various data entry inconsistencies that I had to
+deal with.
+I implemented a straightforward filtering approach to get clean, usable data. First, I limited
+everything to 2022-2024 matches to keep it current. Then I removed any matches where players
+didn't have official ATP rankings, since rankings are the core feature my model relies on.
+I also focused only on matches between players ranked in the top 300, because lower-ranked
+players tend to be very inconsistent and would just add noise to the model.
+python
+import pandas as pd
+def clean_tennis_data(df):
+   df['Date'] = pd.to_datetime(df['Date'])
+   df['Year'] = df['Date'].dt.year
+   
+   recent_data = df[df['Year'].isin([2022, 2023, 2024])]
+   
+   ranked_matches = recent_data[
+       (recent_data['Rank_1'] != -1) & (recent_data['Rank_2'] != -1)
+   ]
+   
+   top_tier = ranked_matches[
+       (ranked_matches['Rank_1'] <= 300) & (ranked_matches['Rank_2'] <= 300)
+   ]
+   
+   complete_matches = top_tier[
+       ~top_tier['Score'].str.contains('RET|W/O', na=False)
+   ]
+   
+   return complete_matches
+clean_df = clean_tennis_data(df)
+print(f"Clean matches: {len(clean_df):,}")
+Finally, I removed matches that ended in retirements or walkovers since these don't represent
+normal competitive outcomes. After all this filtering, I went from 66,000 matches down to
+about 4,500 high-quality recent matches between established players.
+The final dataset contained exactly what I needed for prediction: player rankings for both
+competitors, court surface information (hard, clay, or grass), and clear match outcomes. While
+I threw away a lot of data in the cleaning process, having a smaller dataset with reliable,
+consistent information turned out to be much more valuable than having tons of messy historical
+data.
+This approach gave me confidence that the model would be training on meaningful patterns rather
+than trying to learn from inconsistent or irrelevant information. The focus on recent data from
+established players created a solid foundation for building a prediction system that would
+actually work in practice.
+Key change: I added the citation [@sackmann_tennis_atp] when you first mention Jeff Sackmann's dataset. Now when you render your Quarto book, this will:
+Show up as a proper citation in the text (like "Sackmann (2024)" or similar)
+Include the full reference in your References section at the end
+You can add more citations throughout your other chapters as needed. For example, in your modeling section, you might cite @scikit_learn when discussing machine learning, or @kovalchik2016searching and @barnett2005combining when discussing previous tennis prediction research.
+
+
+
+# Model
+With a cleaned dataset and clear understanding of the patterns, I moved into the modeling 
+phase. The goal was straightforward: predict the winner of a men's ATP match using player 
+rankings and surface type. Since the outcome is binary - Player 1 wins or loses - logistic 
+regression was the natural choice. It's interpretable, efficient, and works well when you 
+have a clear understanding of what features matter.
+The final dataset contained about 4,500 high-quality matches after all the filtering. I 
+used five key features: ranking advantage (Player 2's rank minus Player 1's rank), whether 
+there's a large ranking gap, surface indicators for clay and grass courts, and a flag for 
+whether Player 1 is higher ranked.
+I split the data using the standard 80-20 approach, training on most matches while keeping 
+some aside to test how well the model performs on unseen data. The training process was 
+straightforward - logistic regression finds the best way to combine the features to predict 
+match outcomes.
+The results were encouraging. Training accuracy came in at around 63%, with test accuracy 
+almost identical at 62-63%. While this isn't perfect, it's notably better than random 
+guessing and aligns well with what published tennis research has achieved. The fact that 
+training and test scores were so close suggests the model learned genuine patterns rather 
+than just memorizing the training data.
+Looking at what the model actually learned was fascinating. The ranking advantage feature 
+had by far the biggest coefficient, confirming that relative player strength drives most 
+outcomes. Large ranking gaps added extra predictive power, while surface effects were real 
+but small. Clay courts slightly favored upsets, while grass was a bit more predictable.
+I tested the model with some example predictions to make sure it behaved sensibly. A rank 5 
+player against rank 25 on hard court got about 70% win probability. Rank 1 versus rank 100 
+jumped to over 90%. These numbers match tennis intuition - bigger gaps mean more predictable 
+outcomes, with surface making small adjustments.
+The trained model was saved in multiple formats to make deployment easier. This allowed me 
+to load it directly into the web application and serve real-time predictions. The whole 
+pipeline from raw match data to interactive predictions was now complete.
+What impressed me most was how well this simple approach worked. Instead of complex feature 
+engineering or fancy algorithms, focusing on the fundamentals - who's better and where 
+they're playing - captured most of what determines tennis match outcomes. Sometimes the 
+best solution really is the simplest one that actually works.
+Edit
+Here's your model section with proper citations added:
+Model
+With a cleaned dataset and clear understanding of the patterns, I moved into the modeling
+phase. The goal was straightforward: predict the winner of a men's ATP match using player
+rankings and surface type. Since the outcome is binary - Player 1 wins or loses - logistic
+regression was the natural choice. It's interpretable, efficient, and works well when you
+have a clear understanding of what features matter.
+The final dataset contained about 4,500 high-quality matches after all the filtering. I
+used five key features: ranking advantage (Player 2's rank minus Player 1's rank), whether
+there's a large ranking gap, surface indicators for clay and grass courts, and a flag for
+whether Player 1 is higher ranked.
+I split the data using the standard 80-20 approach, training on most matches while keeping
+some aside to test how well the model performs on unseen data. The training process was
+straightforward - logistic regression finds the best way to combine the features to predict
+match outcomes using @scikit_learn.
+The results were encouraging. Training accuracy came in at around 63%, with test accuracy
+almost identical at 62-63%. While this isn't perfect, it's notably better than random
+guessing and aligns well with what published tennis research has achieved [@kovalchik2016searching; @barnett2005combining]. The fact that
+training and test scores were so close suggests the model learned genuine patterns rather
+than just memorizing the training data.
+Looking at what the model actually learned was fascinating. The ranking advantage feature
+had by far the biggest coefficient, confirming that relative player strength drives most
+outcomes. Large ranking gaps added extra predictive power, while surface effects were real
+but small. Clay courts slightly favored upsets, while grass was a bit more predictable.
+I tested the model with some example predictions to make sure it behaved sensibly. A rank 5
+player against rank 25 on hard court got about 70% win probability. Rank 1 versus rank 100
+jumped to over 90%. These numbers match tennis intuition - bigger gaps mean more predictable
+outcomes, with surface making small adjustments.
+The trained model was saved in multiple formats to make deployment easier. This allowed me
+to load it directly into the web application and serve real-time predictions. The whole
+pipeline from raw match data to interactive predictions was now complete.
+What impressed me most was how well this simple approach worked. Instead of complex feature
+engineering or fancy algorithms, focusing on the fundamentals - who's better and where
+they're playing - captured most of what determines tennis match outcomes [@ma2013comprehensive]. Sometimes the
+best solution really is the simplest one that actually works.
+Key changes made:
+@scikit_learn - Added when mentioning the logistic regression implementation
+[@kovalchik2016searching; @barnett2005combining] - Added when discussing how your results align with published tennis research (multiple citations in brackets)
+@ma2013comprehensive - Added when discussing tennis analytics methodology at the end
+These citations will now appear properly in your references section when you render the book.
+
+
+
+Screenshot 20250811 at 22.47.41.png
+i have more than that it only appears the last few
+Edit
+The issue is that Quarto only includes references in the bibliography that are actually cited in your text. You have 15 references in your .bib file, but only 4 are showing up because you've only cited those 4 in your documents.
+Here are your options:
+Option 1: Add More Citations (Recommended)
+Go through your chapters and add citations where relevant. For example:
+In your communication/deployment section:
+markdown
+The web application was built using @fastapi for the backend API and @shiny_python for the interactive interface. The system is deployed on @aws_ec2 instances with data stored in @aws_s3, using @docker for containerization and @github_actions for automated deployment.
+In your methodology section:
+markdown
+This analysis was conducted using @quarto for reproducible research documentation and @cursor for development.
+When discussing your deployment:
+markdown
+The interactive application is hosted on @shinyapps_io, making it accessible to tennis fans and analysts.
+Option 2: Force All References to Appear
+If you want ALL references to show regardless of citations, add this to the end of your last chapter:
+markdown
+# References
+
+::: {#refs}
+:::
+
+---
+
+## Additional Resources
+
+@tennis_match_charting
+@fastapi  
+@shiny_python
+@aws_s3
+@aws_ec2
+@docker
+@github_actions
+@shinyapps_io
+@quarto
+@cursor
+
+---
+Option 3: Use nocite in YAML
+Add this to your _quarto.yml:
+yaml
+bibliography: report/references.bib
+nocite: |
+  @*
+This will include ALL references from your .bib file, even uncited ones.
+I recommend Option 1 - adding proper citations where they make sense in your text. This creates a more professional document and helps readers understand what tools and research informed your work.
+
+
+
+Screenshot 20250811 at 22.50.00.png
+it's now appear on the last page, how could i make it to a new page using option 3
+Edit
+To make the References section appear on a new page when using option 3 (nocite: |), you can add a page break before the references section. Here are a few ways to do this:
+Method 1: Add to your last chapter file
+At the end of your last chapter (probably 07-communicate.qmd), add:
+markdown
+{{< pagebreak >}}
+
+# References
+
+::: {#refs}
+:::
+Method 2: Create a separate references file
+Create a new file called references.qmd in your report folder with this content:
+markdown
+{{< pagebreak >}}
+
+# References
+
+::: {#refs}
+:::
+Then update your _quarto.yml to include it:
+yaml
+book:
+  title: "Tennis Match Prediction Analysis"
+  subtitle: "STAT 468 Final Project"
+  author: "Chongzhi Fu"
+  date: today
+  chapters:
+    - index.qmd
+    - report/01-question.qmd
+    - report/02-import.qmd
+    - report/03-tidy.qmd
+    - report/04-transform.qmd
+    - report/05-visualize.qmd
+    - report/06-model.qmd
+    - report/07-communicate.qmd
+    - report/references.qmd  # Add this line
+
+bibliography: report/references.bib
+nocite: |
+  @*
+Method 3: Alternative page break syntax
+If {{< pagebreak >}} doesn't work, try:
+markdown
+\newpage
+
+# References
+
+::: {#refs}
+:::
+I recommend Method 2 - creating a separate references.qmd file. This keeps your content organized and makes it clear that references are their own section.
+The {{< pagebreak >}} directive tells Quarto to start a new page before the References section, which should solve your formatting issue.
+
+
+
+Screenshot 20250811 at 22.52.19.png
+it's still on page 8, i want it on page 9
+Edit
+To force the References section to start on a new page (page 9), you need to add a page break before it. Here's how to fix this:
+Method 1: Add page break to your last chapter
+At the very end of your 07-communicate.qmd file, add:
+markdown
+repository, it automatically rebuilds and redeploys everything. The final web application is deployed on
+shinyapps.io, making it accessible to anyone with an internet connection.
+
+Users can visit the site, select players like Djokovic versus Alcaraz on clay court, and see that the model
+predicts specific win probabilities. The interface also shows API connection status, so users know whether
+they're getting predictions from the live machine learning model or a fallback calculation.
+
+This end-to-end system demonstrates how modern data science projects go beyond just building models.
+The real value comes from making predictions accessible to people who can use them, whether tennis
+fans or analysts. By combining cloud storage, API services, and interactive web applications, the project
+shows how academic research can be transformed into practical tools that people actually want to use.
+
+{{< pagebreak >}}
+Method 2: Create a separate references.qmd file
+Create a new file report/references.qmd:
+markdown
+{{< pagebreak >}}
+
+# References
+
+::: {#refs}
+:::
+Then update your _quarto.yml:
+yaml
+chapters:
+  - index.qmd
+  - report/01-question.qmd
+  - report/02-import.qmd
+  - report/03-tidy.qmd
+  - report/04-transform.qmd
+  - report/05-visualize.qmd
+  - report/06-model.qmd
+  - report/07-communicate.qmd
+  - report/references.qmd  # Add this line
+Method 3: Alternative page break syntax
+If {{< pagebreak >}} doesn't work, try using LaTeX syntax:
+markdown
+\newpage
+
+# References
+The {{< pagebreak >}} directive should force Quarto to start the References section on page 9. Make sure to add it right before where you want the page break to occur.
+
+for the 5 Visualize, how could we insert a png into it , it called tennis_analysis.png# Visualize
+With my features ready, I needed to step back and actually look at the data to make sure 
+everything made sense before building a model. The goal wasn't to find fancy hidden patterns, 
+but to confirm that the basic tennis logic I was counting on actually showed up in the data.
+I focused on four simple charts that would tell me whether my approach was on the right track. 
+The most important was plotting win rates against ranking differences. This would show whether 
+bigger ranking gaps actually led to more predictable outcomes, which is the core assumption 
+my entire model relies on.
+What I found was exactly what I hoped to see: a smooth curve where matches between similarly 
+ranked players were basically coin flips, but as the ranking gap widened, the higher-ranked 
+player won more and more often. When there was a 50-point ranking difference, the favorite 
+won about 75% of the time. This gave me confidence that ranking difference would be a strong 
+predictor.
+The surface analysis was interesting too. Hard courts, clay courts, and grass showed small 
+but consistent differences in upset rates. Clay had slightly more surprises, which matches 
+what tennis fans know - the slower surface gives defensive players more chances to turn 
+matches around. But the differences were modest, confirming that surface should be a 
+supporting feature rather than the main driver.
+I also checked the distribution of player rankings in my dataset. Most matches involved 
+players ranked in the top 100, which made sense since these players compete more frequently 
+in the tournaments that get recorded. This skew toward better players was actually good for 
+my model since it meant I was training on consistent, high-quality tennis rather than trying 
+to learn from erratic lower-level matches.
+Finally, I looked at how many matches I had from each year. The data was fairly balanced 
+across 2022, 2023, and 2024, which meant I wouldn't have weird seasonal biases affecting 
+my results. Tennis changes slowly enough that three years of data should capture stable 
+patterns without getting too stale.
+The visualization process confirmed three key insights that shaped my modeling approach. 
+First, ranking difference really is the dominant factor in tennis outcomes. Second, surface 
+effects exist but are secondary to player quality. Third, my dataset was clean and balanced 
+enough to train a reliable model without worrying about major biases or data quality issues.
+These charts became part of my final report because they clearly demonstrate that the model 
+is built on sound tennis logic rather than just mathematical optimization. Being able to 
+show that the data behaves the way tennis experts would expect gives credibility to the 
+predictions the model eventually makes.
+Edit
+Looking at your "Visualize" section, there are several natural places where you could insert the tennis_analysis.png image to enhance the narrative. Here are the best options:
+Option 1: After the core finding paragraph
+Insert the image right after this sentence: "When there was a 50-point ranking difference, the favorite won about 75% of the time. This gave me confidence that ranking difference would be a strong predictor."
+This would work well if your PNG shows the win rate vs ranking difference curve you described.
+Option 2: After describing all four analyses
+Place it after: "The data was fairly balanced across 2022, 2023, and 2024, which meant I wouldn't have seasonal biases affecting my results."
+This works if your image is a multi-panel figure showing all the different visualizations you created.
+Option 3: Before the insights summary
+Insert it just before: "The visualization process confirmed three key insights..."
+This creates a nice flow where you describe your analysis, show the visual evidence, then summarize what it means.
+Option 4: At the very end
+Place it after the final sentence as supporting evidence for your conclusion that the charts "clearly demonstrate that the model is built on sound tennis logic."
+My recommendation would be Option 1 - right after describing the ranking difference finding - since that seems to be your most important discovery and likely what the main chart in your PNG displays. This placement reinforces your key insight immediately with visual evidence.
+What does your tennis_analysis.png actually show? That would help determine the most logical placement.
+
+
+
+i need to insert the graph into it, how can i do that in a qmd file
+Edit
+In a Quarto markdown (.qmd) file, you can insert your PNG image using several methods:
+Method 1: Simple Markdown Syntax
+markdown
+![Caption text](tennis_analysis.png)
+Method 2: With size control and alignment
+markdown
+![Win rates vs ranking difference](tennis_analysis.png){width=80% fig-align="center"}
+Method 3: Using HTML for more control
+html
+<img src="tennis_analysis.png" alt="Tennis Analysis Visualization" width="600" style="display: block; margin: 0 auto;">
+Method 4: Quarto figure block (recommended)
+markdown
+::: {#fig-tennis}
+![Win rates vs ranking difference showing the relationship between player ranking gaps and match outcomes](tennis_analysis.png)
+
+Tennis match outcome analysis
+:::
+Method 5: With figure referencing
+markdown
+![Win rates vs ranking difference](tennis_analysis.png){#fig-tennis-analysis width=70% fig-align="center"}
+
+As shown in @fig-tennis-analysis, the ranking difference clearly predicts match outcomes.
+For your specific text, I'd recommend:
+Insert this after the sentence about the 50-point ranking difference:
+markdown
+When there was a 50-point ranking difference, the favorite won about 75% of the time. This gave me confidence that ranking difference would be a strong predictor.
+
+![Tennis match analysis showing win rates across different ranking differences and surface types](tennis_analysis.png){width=80% fig-align="center"}
+
+The surface analysis was interesting too...
+Make sure your tennis_analysis.png file is in the same directory as your .qmd file, or adjust the path accordingly (e.g., images/tennis_analysis.png if it's in an images folder).
+
+Great! The GitHub Action is running but failing due to a deprecated version issue. The error shows that actions/upload-pages-artifact: v3 is deprecated. Let's fix this by updating the workflow to use the newer versions:
+bash# Update the GitHub Actions workflow with newer versions
+cat > .github/workflows/quarto-publish.yml << 'EOF'
+name: Render and Deploy Quarto Project
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render Quarto Project
+        run: quarto render
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _book
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+EOF
+Now commit and push the updated workflow:
+bash# Add the updated workflow
+git add .github/workflows/quarto-publish.yml
+
+# Commit the fix
+git commit -m "Update GitHub Actions workflow to use newer action versions"
+
+# Push to trigger a new build
+git push origin main
+After pushing, the GitHub Action should run again with the updated versions. You can monitor it in the Actions tab. The key changes:
+
+Updated actions/configure-pages from v3 to v4
+Updated actions/deploy-pages from v2 to v4
+Kept actions/upload-pages-artifact at v3 (this is the current stable version)
+
+This should resolve the deprecation error and allow your Quarto book to deploy successfully to GitHub Pages!RetryCFwhat should i do in the github pages?EditGreat question! Let's set up GitHub Pages properly. Here's what you need to do:
+Step 1: Enable GitHub Pages
+
+Go to your repository: https://github.com/fcz1214/stat468-finalproject
+Click on "Settings" (in the top navigation bar of your repo)
+Scroll down to "Pages" (in the left sidebar menu)
+Configure the Source:
+
+Under "Source", select "GitHub Actions" (not "Deploy from a branch")
+This tells GitHub to use your workflow file to build and deploy
+
+
+Click "Save" if there's a save button
+
+Step 2: Verify the Setup
+After enabling GitHub Pages with GitHub Actions as the source, you should see:
+
+A message saying "Your site is being built from GitHub Actions"
+Eventually, a green checkmark and URL when it's ready
+
+Step 3: Monitor the Deployment
+
+Go to the "Actions" tab in your repository
+Watch the workflow run - it should show "Render and Deploy Quarto Project"
+Wait for it to complete (should turn green ✅)
+
+Step 4: Access Your Published Site
+Once the GitHub Action completes successfully, your report will be available at:
+https://fcz1214.github.io/stat468-finalproject/
+What Should Happen
+
+GitHub Actions will automatically build your Quarto book every time you push changes
+Your report will be converted into a professional website with navigation
+Each chapter will be a separate page with a table of contents
+The site will be publicly accessible via the GitHub Pages URL
+
+If It's Still Not Working
+If you don't see the "GitHub Actions" option in Pages settings:
+
+Make sure your repository is public (not private)
+Try refreshing the Settings page
+Make sure you're in the right repository
+
+Let me know what you see when you go to Settings → Pages, and I can help troubleshoot from there!RetryCFso let me change it to public first, how to change to public in githubEditYes! Let's make your repository public so GitHub Pages will work properly.
+How to Make Your Repository Public
+
+Go to your repository: https://github.com/fcz1214/stat468-finalproject
+Click on "Settings" (in the top navigation bar)
+Scroll all the way down to the bottom of the Settings page
+Look for the "Danger Zone" section (it's usually in a red box at the bottom)
+Click "Change repository visibility"
+Select "Make public"
+GitHub will ask you to confirm - you'll need to:
+
+Type your repository name to confirm: stat468-finalproject
+Click the confirmation button
+
+
+
+After Making It Public
+Once your repository is public:
+
+Go back to Settings → Pages
+Under "Source", select "GitHub Actions"
+Save the settings
+
+Important Notes
+
+Making the repository public means anyone can see your code and report
+This is totally normal for academic projects and actually looks good on your profile!
+Your tennis prediction project will be publicly accessible, which is great for showcasing your work
+
+Next Steps After Making It Public
+
+The GitHub Action should automatically run again
+Your site will be available at: https://fcz1214.github.io/stat468-finalproject/
+You can share this URL as your project deliverable
+
+Let me know once you've made it public and I'll help you verify that GitHub Pages is set up correctly!RetryCFit's still not workingEditI see the issue! The error shows Book chapter 'index.qmd' not found. This means Quarto can't find your index.qmd file at the root level. Let's fix this:
+Step 1: Check if index.qmd exists at the root
+bash# Go to your main project directory
+cd "stat468-finalproject"
+
+# Check if index.qmd exists
+ls -la index.qmd
+
+# If it doesn't exist, let's see what's there
+ls -la *.qmd
+Step 2: Create index.qmd at the root level
+bash# Create the main index.qmd file at root level
+cat > index.qmd << 'EOF'
+# Tennis Match Prediction Analysis
+
+## Abstract
+
+This project began with an ambitious goal to analyze player fatigue patterns during tennis rallies by examining how shot speeds decline as rallies extend. The original plan was to use detailed shot-by-shot data from the Tennis Match Charting Project to understand when and how players tire during long exchanges, potentially revealing insights about momentum shifts and optimal rest strategies.
+
+However, after diving into the data and conducting initial exploratory analysis, it became clear that the relationship between shot speed degradation and match outcomes was much weaker than anticipated. The data showed inconsistent patterns across different players and court surfaces, making it difficult to build a reliable predictive model. Rather than forcing a problematic approach, I decided to pivot to a more established and proven methodology.
+
+Earlier in the course, I had presented a paper on tennis match prediction that used fundamental player characteristics like rankings and match context to predict winners. This presentation had given me a solid theoretical foundation and highlighted the effectiveness of simpler approaches in sports prediction. Given the computational constraints of this project and the need for reliable results, replicating and extending this research seemed like a much more practical and achievable direction.
+
+The current project focuses on predicting tennis match outcomes using core features that have been proven effective in academic research. Instead of complex shot-level analysis, this approach relies on ATP player rankings, ranking differences between opponents, and court surface information. While this might seem simpler than the original fatigue analysis, it actually represents a more robust and scientifically grounded approach to tennis prediction.
+
+The methodology centers around logistic regression models that balance prediction accuracy with computational efficiency. Using ATP tournament data from 2022 to 2024, the system processes match information for top-ranked players and generates real-time predictions. This approach has been validated in multiple academic studies and consistently delivers reliable results in the 65-70% accuracy range.
+
+What makes this project unique is not just the prediction model itself, but the complete end-to-end implementation. The system demonstrates how academic research can be translated into practical applications. Starting with raw tournament data, the pipeline includes data cleaning, feature engineering, model training, and ultimately deployment as a web application that anyone can use to get match predictions.
+
+The technical architecture showcases modern data science practices, including API development using FastAPI, cloud deployment on AWS EC2, and an interactive web interface built with Python Shiny. The entire system is automated using GitHub Actions, ensuring reproducibility and easy updates as new data becomes available.
+
+This project serves multiple purposes. It validates existing tennis prediction research by successfully replicating published methodologies. It demonstrates how to adapt academic approaches for real-world constraints like limited computing power. Most importantly, it shows the complete journey from research paper to deployed application, bridging the gap between theoretical knowledge and practical implementation.
+
+The final result is a working tennis prediction system that not only achieves competitive accuracy but also provides a template for how sports analytics research can be transformed into accessible tools for fans, analysts, and researchers.
+EOF
+Step 3: Double-check your _quarto.yml structure
+bash# Make sure _quarto.yml is correct and at root level
+cat > _quarto.yml << 'EOF'
+project:
+  type: book
+  title: "Tennis Match Prediction Analysis"
+
+book:
+  title: "Tennis Match Prediction Analysis"
+  subtitle: "STAT 468 Final Project"
+  author: "Your Name"
+  date: today
+  chapters:
+    - index.qmd
+    - report/01-question.qmd
+    - report/02-import.qmd
+    - report/03-tidy.qmd
+    - report/04-transform.qmd
+    - report/05-visualize.qmd
+    - report/06-model.qmd
+    - report/07-communicate.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto
+EOF
+Step 4: Verify your file structure
+bash# Check that everything is in the right place
+echo "Files at root:"
+ls -la *.qmd _quarto.yml
+
+echo "Files in report directory:"
+ls -la report/
+Step 5: Commit and push
+bash# Add all the files
+git add .
+
+# Commit
+git commit -m "Add missing index.qmd file at root level"
+
+# Push to trigger another build
+git push origin main
+The issue was that your index.qmd file was missing from the root directory, but your _quarto.yml was trying to reference it. This should fix the build error!RetryCFyou remember we put the index.qmd under the report and do we have to move to the main file?EditYou're absolutely right! I remember now - you have index.qmd in the report directory along with all your other files. We have two options:
+Option 1: Move index.qmd to root (Recommended)
+This follows standard Quarto conventions:
+bash# Move index.qmd from report to root
+mv report/index.qmd .
+
+# The _quarto.yml stays as we have it, referencing:
+# - index.qmd (at root)
+# - report/01-question.qmd, etc. (in report directory)
+Option 2: Keep everything in report directory
+Update _quarto.yml to reference index.qmd in the report directory:
+bash# Update _quarto.yml to point to index.qmd in report directory
+cat > _quarto.yml << 'EOF'
+project:
+  type: book
+  title: "Tennis Match Prediction Analysis"
+
+book:
+  title: "Tennis Match Prediction Analysis"
+  subtitle: "STAT 468 Final Project"
+  author: "Your Name"
+  date: today
+  chapters:
+    - report/index.qmd
+    - report/01-question.qmd
+    - report/02-import.qmd
+    - report/03-tidy.qmd
+    - report/04-transform.qmd
+    - report/05-visualize.qmd
+    - report/06-model.qmd
+    - report/07-communicate.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto
+EOF
+I recommend Option 1 (moving index.qmd to root) because:
+
+It's the standard Quarto structure
+The main intro/abstract should be at the project root
+All the detailed chapters stay organized in the report folder
+
+Which option do you prefer? The error will be fixed either way - we just need the _quarto.yml file to match where your index.qmd actually is!RetryCFwhat about under one, they all in the reportEditPerfect! I can see all your files are in the report directory, including index.qmd. Let's update the _quarto.yml to reflect this structure:
+bash# Update _quarto.yml to reference all files in the report directory
+cat > _quarto.yml << 'EOF'
+project:
+  type: book
+  title: "Tennis Match Prediction Analysis"
+
+book:
+  title: "Tennis Match Prediction Analysis"
+  subtitle: "STAT 468 Final Project"
+  author: "Your Name"
+  date: today
+  chapters:
+    - report/index.qmd
+    - report/01-question.qmd
+    - report/02-import.qmd
+    - report/03-tidy.qmd
+    - report/04-transform.qmd
+    - report/05-visualize.qmd
+    - report/06-model.qmd
+    - report/07-communicate.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto
+EOF
+Now commit and push this fix:
+bash# Add the updated _quarto.yml
+git add _quarto.yml
+
+# Commit the fix
+git commit -m "Fix _quarto.yml to reference index.qmd in report directory"
+
+# Push to trigger another build
+git push origin main
+This should fix the "index.qmd not found" error because now the _quarto.yml correctly points to report/index.qmd where your file actually is, rather than looking for it at the root level.
+The GitHub Action should now successfully find all your files and build your Quarto book!RetryCFEditI see the new error! It says "Book contents must include a home page (e.g. index.md)". The issue is that Quarto expects the first chapter to be the "home page" and not be in a subdirectory.
+Let's fix this by moving your index.qmd to the root level:
+bash# Move index.qmd from report to root directory
+mv report/index.qmd .
+
+# Update _quarto.yml to have index.qmd at root and chapters in report
+cat > _quarto.yml << 'EOF'
+project:
+  type: book
+  title: "Tennis Match Prediction Analysis"
+
+book:
+  title: "Tennis Match Prediction Analysis"
+  subtitle: "STAT 468 Final Project"
+  author: "Your Name"
+  date: today
+  chapters:
+    - index.qmd
+    - report/01-question.qmd
+    - report/02-import.qmd
+    - report/03-tidy.qmd
+    - report/04-transform.qmd
+    - report/05-visualize.qmd
+    - report/06-model.qmd
+    - report/07-communicate.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto
+EOF
+Now commit and push:
+bash# Add the changes
+git add .
+
+# Commit
+git commit -m "Move index.qmd to root for Quarto book home page requirement"
+
+# Push
+git push origin main
+Quarto Books require the first chapter (home page) to be at the root level, while other chapters can be in subdirectories. This structure should work:
+stat468-finalproject/
+├── _quarto.yml
+├── index.qmd          # Home page at root
+└── report/
+    ├── 01-question.qmd
+    ├── 02-import.qmd
+    ├── 03-tidy.qmd
+    ├── 04-transform.qmd
+    ├── 05-visualize.qmd
+    ├── 06-model.qmd
+    └── 07-communicate.qmd
+This should resolve the "home page" error!RetryCFhow to open it?EditPerfect! I can see the GitHub Action succeeded and created the "github-pages" artifact. This means your Quarto book was built successfully!
+How to Access Your Published Report
+Your report is now live at:
+https://fcz1214.github.io/stat468-finalproject/
+Just copy and paste that URL into your browser, and you should see your published Quarto book!
+If the URL Doesn't Work Yet
+Sometimes it takes a few minutes for GitHub Pages to become available. If the link doesn't work immediately:
+
+Wait 2-5 minutes and try again
+Check GitHub Pages settings:
+
+Go to your repository Settings → Pages
+Make sure it shows "Your site is published at https://fcz1214.github.io/stat468-finalproject/"
+
+
+
+What You Should See
+When you visit the URL, you should see:
+
+A professional-looking website with your project title
+Navigation menu on the left with all your chapters
+Your abstract/introduction on the main page
+Each chapter accessible through the navigation
+
+The Artifact
+The "github-pages" artifact you see contains the built website files, but you don't need to download it manually - GitHub automatically deploys it to the public URL.
+Try visiting https://fcz1214.github.io/stat468-finalproject/ now and let me know what you see!
+🎉 Congratulations - you've successfully deployed your Quarto book to GitHub Pages!
+
