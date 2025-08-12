@@ -16,7 +16,8 @@ book:
     - report/05-visualize.qmd
     - report/06-model.qmd
     - report/07-communicate.qmd
-    - report/references.bib
+   
+bibliography: report/references.bib  #
 
 format:
   html:
