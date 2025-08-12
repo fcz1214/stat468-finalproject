@@ -18,7 +18,9 @@ book:
     - report/07-communicate.qmd
    
 bibliography: report/references.bib  
-
+nocite: |
+  @*
+  
 format:
   html:
     theme: cosmo
