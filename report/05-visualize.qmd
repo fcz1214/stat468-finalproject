@@ -4,7 +4,7 @@ With my features ready, I needed to step back and actually look at the data to m
 everything made sense before building a model. The goal wasn't to find fancy hidden patterns, 
 but to confirm that the basic tennis logic I was counting on actually showed up in the data.
 
-![Caption text](tennis_analysis.png)
+![Caption text](./tennis_analysis.png)
 
 I focused on four simple charts that would tell me whether my approach was on the right track. 
 The most important was plotting win rates against ranking differences. This would show whether 
