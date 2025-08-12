@@ -39,7 +39,7 @@ whether tennis fans or analysts. By combining cloud storage, API services, and i
 web applications, the project shows how academic research can be transformed into practical 
 tools that people actually want to use.
 
-{{< pagebreak >}}
+\newpage
 
 # References
 
