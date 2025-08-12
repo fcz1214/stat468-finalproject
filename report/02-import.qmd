@@ -1,0 +1,62 @@
+After switching from my original fatigue analysis idea to match outcome prediction, I needed 
+to find good tennis data that would actually work for this project. During my earlier paper 
+presentation research, I had discovered Jeff Sackmann's tennis datasets on GitHub, which 
+turned out to be exactly what I needed. Jeff is well-known in the tennis analytics community 
+and maintains a comprehensive repository of ATP match data that spans decades.
+
+The dataset contains detailed information about professional tennis matches including player 
+names, rankings, tournament details, court surfaces, and match outcomes. I decided to focus 
+on ATP men's tennis data from 2022 to 2024, which gave me recent matches that reflect current 
+playing styles while providing enough data to train a reliable model.
+
+When I first loaded the data, I was looking at almost 66,000 matches total, which seemed 
+impressive until I realized most of it wasn't useful for my project. The older data had 
+missing information everywhere, and honestly, tennis from the 1970s isn't very relevant for 
+predicting modern matches anyway. The dataset also had plenty of messy real-world issues like 
+missing rankings, incomplete matches, and various data entry inconsistencies that I had to 
+deal with.
+
+I implemented a straightforward filtering approach to get clean, usable data. First, I limited 
+everything to 2022-2024 matches to keep it current. Then I removed any matches where players 
+didn't have official ATP rankings, since rankings are the core feature my model relies on. 
+I also focused only on matches between players ranked in the top 300, because lower-ranked 
+players tend to be very inconsistent and would just add noise to the model.
+
+```python
+import pandas as pd
+
+def clean_tennis_data(df):
+   df['Date'] = pd.to_datetime(df['Date'])
+   df['Year'] = df['Date'].dt.year
+   
+   recent_data = df[df['Year'].isin([2022, 2023, 2024])]
+   
+   ranked_matches = recent_data[
+       (recent_data['Rank_1'] != -1) & (recent_data['Rank_2'] != -1)
+   ]
+   
+   top_tier = ranked_matches[
+       (ranked_matches['Rank_1'] <= 300) & (ranked_matches['Rank_2'] <= 300)
+   ]
+   
+   complete_matches = top_tier[
+       ~top_tier['Score'].str.contains('RET|W/O', na=False)
+   ]
+   
+   return complete_matches
+
+clean_df = clean_tennis_data(df)
+print(f"Clean matches: {len(clean_df):,}")
+```
+Finally, I removed matches that ended in retirements or walkovers since these don't represent
+normal competitive outcomes. After all this filtering, I went from 66,000 matches down to
+about 4,500 high-quality recent matches between established players.
+The final dataset contained exactly what I needed for prediction: player rankings for both
+competitors, court surface information (hard, clay, or grass), and clear match outcomes. While
+I threw away a lot of data in the cleaning process, having a smaller dataset with reliable,
+consistent information turned out to be much more valuable than having tons of messy historical
+data.
+This approach gave me confidence that the model would be training on meaningful patterns rather
+than trying to learn from inconsistent or irrelevant information. The focus on recent data from
+established players created a solid foundation for building a prediction system that would
+actually work in practice.

@@ -1,0 +1,43 @@
+# Visualize
+
+With my features ready, I needed to step back and actually look at the data to make sure 
+everything made sense before building a model. The goal wasn't to find fancy hidden patterns, 
+but to confirm that the basic tennis logic I was counting on actually showed up in the data.
+
+I focused on four simple charts that would tell me whether my approach was on the right track. 
+The most important was plotting win rates against ranking differences. This would show whether 
+bigger ranking gaps actually led to more predictable outcomes, which is the core assumption 
+my entire model relies on.
+
+What I found was exactly what I hoped to see: a smooth curve where matches between similarly 
+ranked players were basically coin flips, but as the ranking gap widened, the higher-ranked 
+player won more and more often. When there was a 50-point ranking difference, the favorite 
+won about 75% of the time. This gave me confidence that ranking difference would be a strong 
+predictor.
+
+The surface analysis was interesting too. Hard courts, clay courts, and grass showed small 
+but consistent differences in upset rates. Clay had slightly more surprises, which matches 
+what tennis fans know - the slower surface gives defensive players more chances to turn 
+matches around. But the differences were modest, confirming that surface should be a 
+supporting feature rather than the main driver.
+
+I also checked the distribution of player rankings in my dataset. Most matches involved 
+players ranked in the top 100, which made sense since these players compete more frequently 
+in the tournaments that get recorded. This skew toward better players was actually good for 
+my model since it meant I was training on consistent, high-quality tennis rather than trying 
+to learn from erratic lower-level matches.
+
+Finally, I looked at how many matches I had from each year. The data was fairly balanced 
+across 2022, 2023, and 2024, which meant I wouldn't have weird seasonal biases affecting 
+my results. Tennis changes slowly enough that three years of data should capture stable 
+patterns without getting too stale.
+
+The visualization process confirmed three key insights that shaped my modeling approach. 
+First, ranking difference really is the dominant factor in tennis outcomes. Second, surface 
+effects exist but are secondary to player quality. Third, my dataset was clean and balanced 
+enough to train a reliable model without worrying about major biases or data quality issues.
+
+These charts became part of my final report because they clearly demonstrate that the model 
+is built on sound tennis logic rather than just mathematical optimization. Being able to 
+show that the data behaves the way tennis experts would expect gives credibility to the 
+predictions the model eventually makes.

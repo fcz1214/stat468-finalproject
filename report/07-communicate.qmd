@@ -1,0 +1,40 @@
+# Communicate
+
+The final step was turning my tennis prediction model into something people could actually 
+use. This meant building a complete system that could serve predictions in real-time through 
+a web interface, while demonstrating modern deployment practices using cloud infrastructure.
+
+The architecture has three main components working together. First, the trained model gets 
+stored in AWS S3, which acts like a cloud file cabinet where the prediction algorithm lives. 
+Second, a Python API running on AWS EC2 loads the model and serves predictions. Third, a 
+Python Shiny web application provides the user-friendly interface where people can select 
+players and get match predictions.
+
+Setting up AWS S3 was straightforward - I uploaded my trained model file so it could be 
+accessed from anywhere. The API component was built using FastAPI and containerized with 
+Docker, then deployed to an AWS EC2 virtual machine for reliable 24/7 operation.
+
+The web interface uses Python Shiny, letting me build interactive applications entirely 
+in Python. Users can select two players from dropdown menus, choose a court surface, and 
+get instant predictions with win probabilities for both players. The interface shows not 
+just numbers but also confidence levels and match context.
+
+When someone uses the web app, it sends a request to the API on EC2, which loads the model 
+from S3 and calculates the prediction, then sends the result back to display in the web 
+interface. The whole process happens in seconds, making it feel responsive and immediate.
+
+The deployment process is automated using GitHub Actions. Whenever I push changes to the 
+code repository, it automatically rebuilds and redeploys everything. The final web 
+application is deployed on shinyapps.io, making it accessible to anyone with an internet 
+connection.
+
+Users can visit the site, select players like Djokovic versus Alcaraz on clay court, and 
+see that the model predicts specific win probabilities. The interface also shows API 
+connection status, so users know whether they're getting predictions from the live machine 
+learning model or a fallback calculation.
+
+This end-to-end system demonstrates how modern data science projects go beyond just building 
+models. The real value comes from making predictions accessible to people who can use them, 
+whether tennis fans or analysts. By combining cloud storage, API services, and interactive 
+web applications, the project shows how academic research can be transformed into practical 
+tools that people actually want to use.

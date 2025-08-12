@@ -1,0 +1,53 @@
+cat > 03-tidy.qmd << 'EOF'
+# Tidy
+
+Getting the tennis data was just the first step — now I had to actually make it usable for 
+machine learning. Even though Jeff Sackmann's dataset is considered high quality in the tennis 
+world, real sports data is inherently messy. Players get injured mid-match, tournaments get 
+rained out, and sometimes there are just plain data entry mistakes that you have to figure 
+out how to handle.
+
+The first challenge was understanding what all the different codes and formats actually meant. 
+Tournament names were inconsistent across years, player names had slight variations, and the 
+ranking system itself had some quirks. Some matches had missing information that wasn't 
+immediately obvious — for example, a player might have a ranking of 0 or -1, which could 
+mean they were unranked, just returning from injury, or there was simply a data error.
+
+Ranking data turned out to be the trickiest part. Missing rankings were coded as -1, which 
+made sense, but some very high ranking numbers (like 800 or 1000) often indicated players 
+who were inconsistent or just starting their careers. Including these would probably hurt my 
+model's performance since their results tend to be unpredictable.
+
+The surface information was cleaner but still needed some work. Most matches were on hard 
+courts, followed by clay and grass. A few were listed as "Carpet," an outdated surface type, 
+so I grouped these with hard courts since the playing characteristics are similar.
+
+```python
+# Example cleaning process
+df_clean['Date'] = pd.to_datetime(df_clean['Date'], errors='coerce')
+df_clean['Year'] = df_clean['Date'].dt.year
+
+# Filter to recent years and top 300 ranked players
+df_clean = df_clean[df_clean['Year'].isin([2022, 2023, 2024])]
+df_clean = df_clean[
+   (df_clean['Rank_1'] > 0) & (df_clean['Rank_1'] <= 300) &
+   (df_clean['Rank_2'] > 0) & (df_clean['Rank_2'] <= 300)
+]
+
+# Surface cleanup
+df_clean['Surface'] = df_clean['Surface'].replace('Carpet', 'Hard')
+
+# Remove incomplete matches
+df_clean = df_clean[~df_clean['Score'].str.contains('RET|W/O|DEF', na=False)]
+```
+
+I also created the core features for modeling:
+-rank_diff: Player 1's rank minus Player 2's rank
+-rank_diff_abs: The absolute ranking difference
+-player1_favored: Binary indicator for whether Player 1 was ranked higher
+-Dummy variables for surface type
+
+By the end of the cleaning process, the original 66,000 matches had become a focused collection
+of about 4,500 recent, high-quality matches with complete information. Having reliable,
+consistent input data made everything that came after — the modeling, web app, and deployment
+— much more straightforward and trustworthy.

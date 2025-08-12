@@ -1,0 +1,34 @@
+# Transform
+
+With clean tennis data in hand, I needed to transform it into features that a machine learning 
+model could actually use. The goal was to create a small set of meaningful variables that 
+capture what really matters in tennis: how good each player is relative to their opponent, 
+and what the match conditions are like.
+
+The most important feature turned out to be ranking advantage. In tennis, lower rankings are 
+better, so rank 1 beats rank 50. I calculated Player 1's advantage by subtracting their rank 
+from Player 2's rank. When this number is positive, Player 1 is favored; when negative, 
+Player 2 has the edge.
+
+I also added two contextual features that capture important tennis dynamics. First, whether 
+both players are in the top 50, since matches between elite players tend to be more 
+unpredictable regardless of rankings. Second, whether there's a large ranking gap of 20 or 
+more positions, which usually signals a heavily favored outcome.
+
+Court surface needed special handling since it's categorical data. I used hard court as the 
+baseline and created separate indicators for clay and grass courts. This lets the model learn 
+how different surfaces affect outcomes compared to the most common playing condition.
+
+Creating the target variable required some careful work since different data sources format 
+winner information differently. I wrote defensive code that could handle various column 
+formats while ensuring I always got a clean binary outcome indicating whether Player 1 won.
+
+The final transformation gave me exactly what I needed: a small, interpretable set of features 
+that matches tennis intuition. The ranking advantage captures the fundamental strength 
+difference, the contextual features add nuance about match dynamics, and the surface 
+indicators account for playing style preferences. Everything remained simple enough to explain 
+to users while being sophisticated enough to make good predictions.
+
+This approach meant I could focus on the features that actually matter in tennis rather than 
+getting lost in complex feature engineering. The simplicity also made deployment much easier 
+since I only needed to collect a few key pieces of information to make predictions.

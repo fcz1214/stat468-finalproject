@@ -1,0 +1,29 @@
+project:
+  type: book
+  title: "Tennis Match Prediction Analysis"
+
+book:
+  title: "Tennis Match Prediction Analysis"
+  subtitle: "STAT 468 Final Project"
+  author: "Chongzhi Fu"
+  date: today
+  chapters:
+    - index.qmd
+    - report/01-question.qmd
+    - report/02-import.qmd
+    - report/03-tidy.qmd
+    - report/04-transform.qmd
+    - report/05-visualize.qmd
+    - report/06-model.qmd
+    - report/07-communicate.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto

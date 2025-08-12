@@ -1,0 +1,41 @@
+# Problem Statement
+
+Tennis presents a unique challenge for sports prediction because of its individual nature and the 
+complex factors that determine match outcomes. Unlike team sports where multiple players can 
+compensate for each other's weaknesses, tennis matches come down to head-to-head competition 
+between two individuals, making every factor potentially decisive. The sport has always captured 
+the attention of fans and analysts who want to understand what makes one player more likely to 
+beat another. Traditional tennis analysis often relies on subjective assessments or simple 
+win-loss records, but these approaches miss the nuanced patterns that data science can reveal.
+
+This project initially aimed to explore player fatigue during rallies by examining how shot 
+speeds decline as rallies extend. The hypothesis was that as rallies progressed beyond five 
+or six shots, players would show measurable signs of fatigue through declining shot speeds 
+and increased error rates. The plan was to use shot-by-shot data from the Tennis Match 
+Charting Project to identify fatigue patterns that could predict when momentum was shifting 
+during a match. 
+
+However, after working with the data, it became apparent that the shot speed data was 
+inconsistent across different tournaments and recording conditions. More importantly, the 
+relationship between speed decline and match outcomes was much weaker than expected. Rather 
+than forcing a problematic approach, I decided to pivot to a more established and proven 
+methodology.
+
+This shift was influenced by prior research I had encountered during an earlier paper 
+presentation, which demonstrated that simple features like player rankings and match context 
+could achieve impressive prediction accuracy, often in the 65-70% range. The appeal of this 
+approach lies in its combination of simplicity and effectiveness. Instead of trying to capture 
+complex within-match dynamics, it focuses on fundamental characteristics: how good each player 
+is relative to their opponent, and how match conditions might favor one player over another.
+
+One key constraint was computational resources. Complex models requiring extensive processing 
+were not feasible, which aligned well with ranking-based prediction that achieves strong 
+performance with simple models. The project also needed to demonstrate practical applicability 
+by building a complete system that could serve real-time predictions through a web interface.
+
+The primary objective became building a tennis prediction system that validates existing 
+research while demonstrating the full pipeline from data collection to deployment. This 
+involves model development, data engineering, API design, web development, and deployment 
+automation. The project would be successful if it achieved comparable accuracy to published 
+research in the 65-70% range, successfully deployed as a working web application, and provided 
+a reproducible, automated pipeline that demonstrates modern data science practices.

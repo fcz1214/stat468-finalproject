@@ -1,0 +1,42 @@
+# Model
+
+With a cleaned dataset and clear understanding of the patterns, I moved into the modeling 
+phase. The goal was straightforward: predict the winner of a men's ATP match using player 
+rankings and surface type. Since the outcome is binary - Player 1 wins or loses - logistic 
+regression was the natural choice. It's interpretable, efficient, and works well when you 
+have a clear understanding of what features matter.
+
+The final dataset contained about 4,500 high-quality matches after all the filtering. I 
+used five key features: ranking advantage (Player 2's rank minus Player 1's rank), whether 
+there's a large ranking gap, surface indicators for clay and grass courts, and a flag for 
+whether Player 1 is higher ranked.
+
+I split the data using the standard 80-20 approach, training on most matches while keeping 
+some aside to test how well the model performs on unseen data. The training process was 
+straightforward - logistic regression finds the best way to combine the features to predict 
+match outcomes.
+
+The results were encouraging. Training accuracy came in at around 63%, with test accuracy 
+almost identical at 62-63%. While this isn't perfect, it's notably better than random 
+guessing and aligns well with what published tennis research has achieved. The fact that 
+training and test scores were so close suggests the model learned genuine patterns rather 
+than just memorizing the training data.
+
+Looking at what the model actually learned was fascinating. The ranking advantage feature 
+had by far the biggest coefficient, confirming that relative player strength drives most 
+outcomes. Large ranking gaps added extra predictive power, while surface effects were real 
+but small. Clay courts slightly favored upsets, while grass was a bit more predictable.
+
+I tested the model with some example predictions to make sure it behaved sensibly. A rank 5 
+player against rank 25 on hard court got about 70% win probability. Rank 1 versus rank 100 
+jumped to over 90%. These numbers match tennis intuition - bigger gaps mean more predictable 
+outcomes, with surface making small adjustments.
+
+The trained model was saved in multiple formats to make deployment easier. This allowed me 
+to load it directly into the web application and serve real-time predictions. The whole 
+pipeline from raw match data to interactive predictions was now complete.
+
+What impressed me most was how well this simple approach worked. Instead of complex feature 
+engineering or fancy algorithms, focusing on the fundamentals - who's better and where 
+they're playing - captured most of what determines tennis match outcomes. Sometimes the 
+best solution really is the simplest one that actually works.

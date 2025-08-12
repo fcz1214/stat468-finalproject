@@ -58,7 +58,6 @@ def get_prediction(rank1, rank2, surface):
         return create_fallback_prediction(rank1, rank2)
 
 def create_fallback_prediction(rank1, rank2):
-    """Generate predictions when API is unavailable"""
     rank_diff = rank2 - rank1
     prob1 = 1 / (1 + math.exp(-rank_diff * 0.02))
     prob1 = max(0.1, min(0.9, prob1))
@@ -71,7 +70,6 @@ def create_fallback_prediction(rank1, rank2):
     }
 
 def check_api_connection():
-    """Verify API connectivity"""
     try:
         response = requests.get(f"{API_URL}/", timeout=3)
         return response.status_code == 200
