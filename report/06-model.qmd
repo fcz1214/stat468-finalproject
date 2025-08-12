@@ -14,12 +14,12 @@ whether Player 1 is higher ranked.
 I split the data using the standard 80-20 approach, training on most matches while keeping 
 some aside to test how well the model performs on unseen data. The training process was 
 straightforward - logistic regression finds the best way to combine the features to predict 
-match outcomes.
+match outcomes using @scikit_learn.
 
 The results were encouraging. Training accuracy came in at around 63%, with test accuracy 
-almost identical at 62-63%. While this isn't perfect, it's notably better than random 
-guessing and aligns well with what published tennis research has achieved. The fact that 
-training and test scores were so close suggests the model learned genuine patterns rather 
+almost identical at 62-63%. While this isn't perfect, it's notably better than random
+guessing and aligns well with what published tennis research has achieved [@kovalchik2016searching; @barnett2005combining].
+The fact that training and test scores were so close suggests the model learned genuine patterns rather 
 than just memorizing the training data.
 
 Looking at what the model actually learned was fascinating. The ranking advantage feature 

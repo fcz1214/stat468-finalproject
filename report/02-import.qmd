@@ -2,8 +2,8 @@
 
 After switching from my original fatigue analysis idea to match outcome prediction, I needed 
 to find good tennis data that would actually work for this project. During my earlier paper 
-presentation research, I had discovered Jeff Sackmann's tennis datasets on GitHub, which 
-turned out to be exactly what I needed. Jeff is well-known in the tennis analytics community 
+presentation research I had discovered Jeff Sackmann's tennis datasets on GitHub [@sackmann_tennis_atp]
+which turned out to be exactly what I needed. Jeff is well-known in the tennis analytics community 
 and maintains a comprehensive repository of ATP match data that spans decades.
 
 The dataset contains detailed information about professional tennis matches including player 

@@ -38,3 +38,8 @@ models. The real value comes from making predictions accessible to people who ca
 whether tennis fans or analysts. By combining cloud storage, API services, and interactive 
 web applications, the project shows how academic research can be transformed into practical 
 tools that people actually want to use.
+
+# References
+
+::: {#refs}
+:::
